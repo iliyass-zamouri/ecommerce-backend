@@ -13,8 +13,9 @@ class Product extends Model
     protected $fillable = [
         'slug',
         'label',
-        'marque',
+        'description',
         'gender',
+        'mark',
         'category_id',
     ];
 }

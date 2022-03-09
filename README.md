@@ -15,7 +15,9 @@ This project is an Ecommerce Laravel Rest API that can be linked to any FrontEnd
 
 ## Modeling
 
-### users 
+### users
+✔ migration
+✔ model
 - id
 - first_name
 - last_name
@@ -23,30 +25,65 @@ This project is an Ecommerce Laravel Rest API that can be linked to any FrontEnd
 - password
   
 ### products 
+✔ migration
+✔ model
 - id
+- slug
 - label
 - description
+- gender
 - mark
-### categories
-- id 
+- category_id
+
+### colors
+- id
+- product_id
+- color
+
+### photos
+✔ migration
+✔ model
+- id
 - label
+- file_name
+- product_id
+
+### categories
+✔ migration
+✔ model
+- id 
+- slug
+- label
+
 ### marks 
+✔ migration
+✔ model
 - id 
 - label
 - logo
 ### specifications 
+✔ migration
+✔ model
 - id
 - size
+- product_id
 - price
+
 ### carts 
+✔ migration
+✔ model
 - id
 - product_id
 - user_id
-### wishlists 
+### wishlists
+✔ migration
+✔ model
 - id
 - product_id
 - user_id 
 ### subscriptions 
+✔ migration
+✔ model
 - id
 - user_id
 - token 
