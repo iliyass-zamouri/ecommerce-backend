@@ -15,9 +15,8 @@ class CreateCategoriesTable extends Migration
     {
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
-            $table->string('libelle');
-            $table->
-            $table->softDeletes():
+            $table->string('label');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
