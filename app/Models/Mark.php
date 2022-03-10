@@ -14,4 +14,9 @@ class Mark extends Model
         'label',
         'logo',
     ];
+
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
 }

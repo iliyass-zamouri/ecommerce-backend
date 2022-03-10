@@ -87,7 +87,7 @@ This project is an Ecommerce Laravel Rest API that can be linked to any FrontEnd
 - id
 - user_id
 - token 
-### orders 
+### orders
 - id
 - note
 - invoice
