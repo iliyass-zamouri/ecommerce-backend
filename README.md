@@ -18,6 +18,7 @@ This project is an Ecommerce Laravel Rest API that can be linked to any FrontEnd
 ### users
 ✔ migration
 ✔ model
+✔ factory (faker)
 - id
 - first_name
 - last_name

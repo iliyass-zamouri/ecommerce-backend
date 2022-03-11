@@ -12,6 +12,7 @@ class Mark extends Model
     protected $fillable = [
         'id',
         'label',
+        'slug',
         'logo',
     ];
 

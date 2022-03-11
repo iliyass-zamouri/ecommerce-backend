@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
+use Database\Factories\UserFactory;
 use Illuminate\Http\Request;
 
 class PublicController extends Controller
@@ -13,7 +15,15 @@ class PublicController extends Controller
      */
     public function index()
     {
-        //
+        UserFactory::times(5);
+        $products = Product::with('mark')->with('photos')->with('category')->with('specifications')->get();
+        $response = [
+            'status' => 'success',
+            'products' => $products
+        ];
+        return response(
+            $response, 200
+        );
     }
 
     /**

@@ -15,7 +15,7 @@ class Product extends Model
         'label',
         'description',
         'gender',
-        'mark',
+        'mark_id',
         'category_id',
     ];
 
