@@ -19,6 +19,11 @@ class Product extends Model
         'category_id',
     ];
 
+    public function scopeAllInfo($query)
+    {
+        return $query->with('mark')->with('photos')->with('category')->with('specifications');
+    }
+
     public function mark()
     {
         return $this->belongsTo(Mark::class);
