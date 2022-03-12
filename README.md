@@ -28,12 +28,13 @@ This project is an Ecommerce Laravel Rest API that can be linked to any FrontEnd
 ### products 
 ✔ migration
 ✔ model
+✔ factory (faker)
 - id
 - slug
 - label
 - description
 - gender
-- mark
+- mark_id
 - category_id
 
 ### colors
@@ -100,7 +101,14 @@ This project is an Ecommerce Laravel Rest API that can be linked to any FrontEnd
 - order_id
   
 ---------------------------------------------
-
+Routes so far:
+```javascript
+// Public Routes :
+GET: /products
+GET: /categories
+GET: /products/{slug}
+```
+---------------------------------------------
 ## Contributing
 
 Feel free to pull-request into the project, and contribute in adding, modifying...

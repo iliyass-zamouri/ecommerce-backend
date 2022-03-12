@@ -2,16 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Product;
-use Database\Factories\UserFactory;
-use Illuminate\Http\Request;
 
 class PublicController extends Controller
 {
 
-    public function index()
+    public function allProducts()
     {
-        UserFactory::times(5);
         $products = Product::allInfo()->get();
         $response = [
             'status' => 'success',
@@ -22,7 +20,7 @@ class PublicController extends Controller
         );
     }
 
-    public function show($slug)
+    public function showProduct($slug)
     {
         $product = Product::where('slug' , $slug)->allInfo()->get()->first();
         $response = [
@@ -32,4 +30,15 @@ class PublicController extends Controller
         return response($response, 200);
     }
 
+    public function allCategories()
+    {
+        $categories = Category::all();
+        $response = [
+            'status' => 'success',
+            'data' => $categories
+        ];
+        return response(
+            $response, 200
+        );
+    }
 }

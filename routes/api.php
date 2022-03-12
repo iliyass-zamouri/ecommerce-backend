@@ -13,15 +13,25 @@ use App\Http\Controllers\PublicController;
 |
 | Here is where you can register API routes for your application. These
 | routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
+| is assigned the "api/v1" middleware group. Enjoy building your API!
 |
 */
 // Public Routes :
-Route::get('/products', [PublicController::class , 'index'] );
-Route::get('/products/{slug}', [PublicController::class , 'show'] );
+Route::get('/products', [PublicController::class , 'allProducts'] );
+Route::get('/categories', [PublicController::class , 'allCategories'] );
+Route::get('/products/{slug}', [PublicController::class , 'showProduct'] );
+
+// Login & Register
+Route::post("login",[\App\Http\Controllers\AuthController::class,'login']);
+Route::post("register",[\App\Http\Controllers\AuthController::class,'register']);
 
 
+// Admin Protected Routes
+Route::group(['prefix' => 'admin', 'middleware' => 'auth:sanctum'], function(){
 
-//Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//    return $request->user();
-//});
+});
+
+// Users protected Routes
+Route::group(['prefix' => 'user', 'middleware' => 'auth:sanctum'], function(){
+
+});
