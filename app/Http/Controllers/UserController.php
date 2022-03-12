@@ -73,7 +73,7 @@ class UserController extends Controller
             // checking if another user with this phone number already exists
             // getting users where the phone number match phone number passed in the request
             // and the id is diffrent from the authenticated user
-            $usedEmail = User::where('phone' == $request->phone)->where('id', '<>' , $user->id)->get();
+            $usedEmail = User::where('phone' , $request->phone)->where('id', '<>' , $user->id)->get();
 
             // checking the list if there is a record
             if($usedEmail->count() != 0){
