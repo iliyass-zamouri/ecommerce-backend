@@ -102,6 +102,14 @@ class AdminController extends Controller
     public function deleteProduct(Product $product)
     {
 
+        // checking wether the product has been found
+        if($product == null){
+            return response([
+                'status' => 'error',
+                'msg' => 'product not found'
+            ], 404);
+        }
+
         // deleting the product based on the params,
         // the route is passing a {product} as id,
         // the controller should auto find the product.
@@ -119,7 +127,8 @@ class AdminController extends Controller
     }
 
     // add new category of products
-    public function storeCategory(Request $request){
+    public function storeCategory(Request $request)
+    {
 
         //validating the request params
         $request->validate([
@@ -147,6 +156,33 @@ class AdminController extends Controller
         return response($response, 201);
 
     }
+    public function deleteCategory(Category $category)
+    {
+
+        // checking wether the category has been found
+        if($category == null){
+            return response([
+                'status' => 'error',
+                'msg' => 'category not found'
+            ], 404);
+        }
+
+        // deleting the product based on the params,
+        // the route is passing a {category} as id,
+        // the controller should auto find the product.
+        $deleted = $category->delete();
+
+        // constructing a response
+        $response = [
+            'status' => 'success',
+            'data' => $deleted
+        ];
+
+        // returning the response
+        return response($response, 200);
+
+    }
+
     // add new mark of products
     public function storeMark(Request $request){
 

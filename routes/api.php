@@ -42,6 +42,8 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
 
         // Category routes:
         Route::post('/categories', [\App\Http\Controllers\AdminController::class, 'storeCategory']);
+        Route::get('/categories/delete/{category}', [\App\Http\Controllers\AdminController::class, 'deleteCategory']);
+
 
         // Mark routes:
         Route::post('/marks', [\App\Http\Controllers\AdminController::class, 'storeMark']);
