@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\City;
 use App\Models\Category;
+use App\Models\Mark;
 use App\Models\Photo;
 use App\Models\Specification;
 use App\Models\User;
@@ -68,8 +69,8 @@ class AdminController extends Controller
         $request->validate([
             'product_id' => 'required|integer',
             'label' => 'required|string',
-//            'photo' => 'required|image|mimes:jpg,png,jpeg,webp|max:2048|dimensions:min_width=800,min_height=495,max_width=800,max_height=495',
-             'photo' => 'mimes:jpeg,jpg,png,webp|max:2048'
+            // 'photo' => 'required|image|mimes:jpg,png,jpeg,webp|max:2048|dimensions:min_width=800,min_height=495,max_width=800,max_height=495',
+            'photo' => 'mimes:jpeg,jpg,png,webp|max:2048'
         ]);
 
         // Getting the city with requested id
@@ -98,13 +99,37 @@ class AdminController extends Controller
 
     }
 
+    public function deleteProduct(Product $product)
+    {
+
+        // deleting the product based on the params,
+        // the route is passing a {product} as id,
+        // the controller should auto find the product.
+        $deleted = $product->delete();
+
+        // constructing a response
+        $response = [
+            'status' => 'success',
+            'data' => $deleted
+        ];
+
+        // returning the response
+        return response($response, 200);
+
+    }
+
     // add new category of products
-    public function addCategory(Request $request){
+    public function storeCategory(Request $request){
 
         //validating the request params
         $request->validate([
-            'label' => $request->label
+            'label' => 'required|string',
         ]);
+
+        // validating the slug if it exists
+        if($request->slug != null){
+            $request->validate(['slug', 'required|string']);
+        }
 
         // creating the category
         $category = Category::create([
@@ -122,7 +147,55 @@ class AdminController extends Controller
         return response($response, 201);
 
     }
+    // add new mark of products
+    public function storeMark(Request $request){
 
+        //validating the request params
+        $request->validate([
+            'label' => 'required|string',
+            'logo' => 'mimes:jpeg,jpg,png,webp|max:2048'
+        ]);
+
+        // validating the slug if it exists
+        if($request->slug != null){
+            $request->validate(['slug', 'required|string']);
+        }
+
+        // Getting the file from the request into a File object
+        $file = $request->file('photo');
+
+        $name = $request->slug == null ? Str::slug($request->label) : $request->slug;
+        // Changing the file name to the generated id and adding the file extension
+        $filename = $name.'.'.File::extension($file->getClientOriginalName());
+
+        // Uploading the file to the public path under the photos folder
+        $file->move(public_path().'/photos/marks', $filename);
+
+
+        // creating the category
+        $mark = Mark::create([
+            'slug' => $request->slug == null ? Str::slug($request->label) : $request->slug,
+            'label' => $request->label,
+            'logo' => public_path().'/photos/marks/' . $filename,
+        ]);
+
+        // constructing a response
+        $response = [
+            'status' => 'success',
+            'data' => $mark
+        ];
+
+        // returning a response with status code of 201
+        return response($response, 201);
+
+    }
+
+
+
+
+
+
+    // admin data private methods
     public function info()
     {
         // getting authenticated user
