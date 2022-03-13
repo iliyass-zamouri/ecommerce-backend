@@ -34,6 +34,7 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
         // Admin Data routes:
         Route::get('/', [\App\Http\Controllers\AdminController::class, 'info']);
         Route::post('/', [\App\Http\Controllers\AdminController::class, 'update']);
+        Route::get('/ip', [\App\Http\Controllers\AdminController::class, 'getIp']);
 
         // Product Routes:
         Route::post('/products', [\App\Http\Controllers\AdminController::class, 'storeProduct']);

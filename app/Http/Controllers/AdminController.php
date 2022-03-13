@@ -26,9 +26,52 @@ class AdminController extends Controller
             'label' => 'required|string',
             'description' => 'required|string',
             'gender' => 'required|string',
-            'mark_id' => 'required',
+            'mark_id' => 'integer',
             'specifications' => 'array',
-            'category_id' => 'string'
+            'category_id' => 'integer'
+        ]);
+
+        // creating new product record in the db
+        $product = Product::create([
+            'slug' => $request->slug == null ? Str::slug($request->label) : $request->slug,
+            'label' => $request->label,
+            'description' => $request->description,
+            'gender' => $request->gender,
+            'mark_id' => $request->mark_id,
+            'category_id' => $request->category_id
+        ]);
+
+        // looping specifications insertion [size, price]
+        foreach($request->specifications as $spec)
+        {
+            Specification::create([
+                'size' => $spec['size'],
+                'product_id' => $product->id,
+                'price' => $spec['price'],
+            ]);
+        }
+
+        // constructing a response
+        $response = [
+            'status' => 'success',
+            'data' => $product
+        ];
+
+        // returning the response with status code of 201
+        return response($response,201);
+
+    }
+
+    public function updateProduct(Request $request)
+    {
+        // validating the request
+        $request->validate([
+            'label' => 'required|string',
+            'description' => 'required|string',
+            'gender' => 'required|string',
+            'mark_id' => 'integer',
+            'specifications' => 'array',
+            'category_id' => 'integer'
         ]);
 
         // creating new product record in the db
@@ -406,6 +449,20 @@ class AdminController extends Controller
         // returning the response
         return response($response, 201);
 
+    }
+
+    public function getIp(){
+        foreach (array('HTTP_CLIENT_IP', 'HTTP_X_FORWARDED_FOR', 'HTTP_X_FORWARDED', 'HTTP_X_CLUSTER_CLIENT_IP', 'HTTP_FORWARDED_FOR', 'HTTP_FORWARDED', 'REMOTE_ADDR') as $key){
+            if (array_key_exists($key, $_SERVER) === true){
+                foreach (explode(',', $_SERVER[$key]) as $ip){
+                    $ip = trim($ip); // just to be safe
+                    if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) !== false){
+                        return $ip;
+                    }
+                }
+            }
+        }
+        return request()->ip(); // it will return server ip when no client ip found
     }
 
 }
