@@ -99,6 +99,34 @@ class AdminController extends Controller
 
     }
 
+    public function deletePhotoFromProduct(Photo $photo)
+    {
+
+        // checking wether the photo has been found
+        if($photo == null){
+            return response([
+                'status' => 'error',
+                'msg' => 'photo not found'
+            ], 404);
+        }
+
+        // Checking if the file exists in the path directory under the photos folder
+        if(File::exists($photo->file_name)){
+            // deleting the file from the public folder
+            File::delete($photo->file_name);
+        }
+
+        // Delete the entry that belongs to the image file
+        $result = $photo->delete();
+
+        // returning a response back
+        return response([
+            'status' => 'success',
+            'data' => $result
+        ], 200);
+
+    }
+
     public function deleteProduct(Product $product)
     {
 
@@ -223,6 +251,31 @@ class AdminController extends Controller
 
         // returning a response with status code of 201
         return response($response, 201);
+
+    }
+    public function deleteMark(Mark $mark)
+    {
+        // checking wether the category has been found
+        if($mark == null){
+            return response([
+                'status' => 'error',
+                'msg' => 'mark not found'
+            ], 404);
+        }
+
+        // deleting the product based on the params,
+        // the route is passing a {category} as id,
+        // the controller should auto find the product.
+        $deleted = $mark->delete();
+
+        // constructing a response
+        $response = [
+            'status' => 'success',
+            'data' => $deleted
+        ];
+
+        // returning the response
+        return response($response, 200);
 
     }
 

@@ -39,6 +39,7 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
         Route::post('/products', [\App\Http\Controllers\AdminController::class, 'storeProduct']);
         Route::get('/products/delete/{product}', [\App\Http\Controllers\AdminController::class, 'deleteProduct']);
         Route::post('/products/photos', [\App\Http\Controllers\AdminController::class, 'addPhotoToProduct']);
+        Route::get('/products/photos/delete/{photo}', [\App\Http\Controllers\AdminController::class, 'deletePhotoFromProduct']);
 
         // Category routes:
         Route::post('/categories', [\App\Http\Controllers\AdminController::class, 'storeCategory']);
@@ -47,6 +48,7 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
 
         // Mark routes:
         Route::post('/marks', [\App\Http\Controllers\AdminController::class, 'storeMark']);
+        Route::get('/marks/delete/{mark}', [\App\Http\Controllers\AdminController::class, 'deleteMark']);
 
     });
 
