@@ -16,9 +16,9 @@ class Cart extends Model
         'quantity'
     ];
 
-    public function products()
+    public function product()
     {
-        return $this->hasMany(Product::class);
+        return $this->belongsTo(Product::class);
     }
     public function specification()
     {

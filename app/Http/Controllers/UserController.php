@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\Specification;
 use App\Models\User;
-use Gloudemans\Shoppingcart\Cart;
+use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -132,7 +132,7 @@ class UserController extends Controller
         $product = Product::find($request->product_id);
 
         // getting the Specification
-        $specification = Specification::where( 'id', $request->specification_id )->where('product_id', $request->product_id)->get();
+        $specification = Specification::where( 'id', $request->specification_id )->where('product_id', $request->product_id)->get()->first();
 
         // checking whether the specification is linked to the product
         if($specification == null){
@@ -140,23 +140,43 @@ class UserController extends Controller
         }
 
         // adding to cart
-        Cart::add($product->id, $product->label, $request->quantity, $specification->price, $specification->size);
+        Cart::add($product->id, $product->label, $request->quantity, $specification->price);
 
         // adding it to the database
-        \App\Models\Cart::create([
+        $cart = \App\Models\Cart::create([
             'product_id' => $product->id,
             'user_id' => Auth::user()->id,
+            'specification_id' => $request->specification_id,
             'quantity' => $request->quantity
         ]);
+        return response([
+            'status' => 'success',
+            'data' => $cart->with('products')->with('specification')->get()
+        ], 201);
 
     }
 
     public function getCart()
     {
-        $cart = \App\Models\Cart::where('user_id', Auth::user()->id)->with('specification')->with('products')->get();
+
+        $cart = \App\Models\Cart::where('user_id', Auth::user()->id)->with('specification')->with('product')->get();
         return response([
             'status' => 'success',
-            'data' => $cart
+            'cartdb' => $cart,
+
         ]);
+    }
+    public function deleteProductFromCart(Product $product)
+    {
+
+        // deleting the product from the cart linked to the user
+        $result = \App\Models\Cart::where('user_id', Auth::user()->id)->where('product_id' ,$product->id)->get()->first()->delete();
+
+        // returning a response
+        return response([
+            'status' => 'success',
+            'data' => $result,
+            ], 200);
+
     }
 }
