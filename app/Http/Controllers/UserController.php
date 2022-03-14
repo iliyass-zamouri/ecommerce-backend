@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
+use App\Models\Specification;
 use App\Models\User;
+use Gloudemans\Shoppingcart\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -113,5 +116,47 @@ class UserController extends Controller
         // returning the response
         return response($response, 201);
 
+    }
+
+    public function addToCart(Request $request)
+    {
+
+        // validating the request
+        $request->validate([
+            'product_id' => 'required|integer',
+            'quantity' => 'required|integer',
+            'specification_id' => 'required|integer'
+        ]);
+
+        // getting the product
+        $product = Product::find($request->product_id);
+
+        // getting the Specification
+        $specification = Specification::where( 'id', $request->specification_id )->where('product_id', $request->product_id)->get();
+
+        // checking whether the specification is linked to the product
+        if($specification == null){
+            return response(['status' => 'error', 'msg' => 'specification deosnt match product'], 404);
+        }
+
+        // adding to cart
+        Cart::add($product->id, $product->label, $request->quantity, $specification->price, $specification->size);
+
+        // adding it to the database
+        \App\Models\Cart::create([
+            'product_id' => $product->id,
+            'user_id' => Auth::user()->id,
+            'quantity' => $request->quantity
+        ]);
+
+    }
+
+    public function getCart()
+    {
+        $cart = \App\Models\Cart::where('user_id', Auth::user()->id)->with('specification')->with('products')->get();
+        return response([
+            'status' => 'success',
+            'data' => $cart
+        ]);
     }
 }

@@ -59,6 +59,8 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
         // User Data Routes:
         Route::get('/', [\App\Http\Controllers\UserController::class, 'info']);
         Route::post('/', [\App\Http\Controllers\UserController::class, 'update']);
+        Route::post('/cart', [\App\Http\Controllers\UserController::class, 'addToCart']);
+        Route::get('/cart', [\App\Http\Controllers\UserController::class, 'getCart']);
 
     });
 
