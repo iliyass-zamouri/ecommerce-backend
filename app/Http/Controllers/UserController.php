@@ -39,7 +39,7 @@ class UserController extends Controller
 
     }
 
-    public function update(Request $request)
+    public function updateData(Request $request)
     {
         // getting the authenticated user
         $user = Auth::user();
@@ -176,12 +176,12 @@ class UserController extends Controller
         ]);
 
         // getting the cart
-        $cart = \App\Models\Cart::userCart()->where('product_id' , $request->product_id);
+        $cart = \App\Models\Cart::userCart()->where('product_id' , $request->product_id)->get()->first();
 
         // checking id the product deosnt exists
         if($cart == null){
             // returning a not found response
-            return response(['status' => 'error', 'msg'=> 'product deosnt exist in the cart'], 404);
+            return response(['status' => 'error', 'msg'=> 'product deosnt exist in the cart', 'data' => $cart], 404);
         }
 
         // validating the quantity, if it's not null, then updating the value of the cart.

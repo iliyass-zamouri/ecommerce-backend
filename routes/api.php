@@ -58,10 +58,13 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
 
         // User Data Routes:
         Route::get('/', [\App\Http\Controllers\UserController::class, 'info']);
-        Route::post('/', [\App\Http\Controllers\UserController::class, 'update']);
+        Route::post('/', [\App\Http\Controllers\UserController::class, 'updateData']);
+
+        // User cart routes
         Route::post('/cart', [\App\Http\Controllers\UserController::class, 'addToCart']);
         Route::get('/cart', [\App\Http\Controllers\UserController::class, 'getCart']);
         Route::get('/cart/wipe', [\App\Http\Controllers\UserController::class, 'wipeCart']);
+        Route::post('/cart/update', [\App\Http\Controllers\UserController::class, 'updateCart']);
         Route::get('/cart/delete/{product}', [\App\Http\Controllers\UserController::class, 'deleteProductFromCart']);
 
     });

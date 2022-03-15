@@ -101,12 +101,55 @@ This project is an Ecommerce Laravel Rest API that can be linked to any FrontEnd
 - order_id
   
 ---------------------------------------------
-Routes so far:
+Routes:
 ```javascript
+
 // Public Routes :
 GET: /products
 GET: /categories
 GET: /products/{slug}
+
+// Login Routes:
+POST: /login
+POST: /register
+
+// User Routes: prefixed with (/user) 
+// for getting user personal data:
+GET: / 
+// for updating data:
+POST: /  
+// to add product to cart
+POST: /cart
+// to update cart
+POST: /cart/update
+// to get cart details
+GET: /cart
+// to delete product from cart:
+GET: /cart/delete/{id}
+// to wipe all cart (empty up)
+GET: /cart/wipe
+
+// Admin Routes: prefixed with (/admin)
+// personal data
+GET: / 
+// updating the personal data
+POST: / 
+// adding a product
+POST: /products
+// deleting a product
+GET: /products/delete/{id}
+// adding a photo to a product
+POST: /products/photos
+// deleting a photo from a product
+GET: /products/photos/delete/{id}
+// adding a category
+POST: /categories
+// deleting a category
+GET: /categories/delete/{id}
+// adding a mark
+POST: /marks
+// deleting a mark 
+GET: /marks/delete/5
 ```
 ---------------------------------------------
 ## Contributing
