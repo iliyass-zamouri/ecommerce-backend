@@ -31,6 +31,14 @@ class AdminController extends Controller
             'category_id' => 'integer'
         ]);
 
+        // checking if the slug already been used
+        $exists = Product::where('slug', $request->slug == null ? Str::slug($request->label) : $request->slug)->get();
+        // checking if it has been found (slug)
+        if($exists->count() != 0){
+            // returning an error response
+            return response(['status' => 'error', 'msg' => 'slug already been used'], 200);
+        }
+
         // creating new product record in the db
         $product = Product::create([
             'slug' => $request->slug == null ? Str::slug($request->label) : $request->slug,

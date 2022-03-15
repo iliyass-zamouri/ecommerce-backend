@@ -1,13 +1,13 @@
-# ecommerce - API
+# Ecommerce - API
 
 ## About This Project
 
 This project is an Ecommerce Laravel Rest API that can be linked to any FrontEnd WebApp.
 ## Features
 
-- [...] Authentication: Laravel Sanctum - Token based auth system.
+- [✔] Authentication: Laravel Sanctum - Token based auth system.
 - [...] Generating pdf invoices.
-- [...] Add to cart.
+- [✔] Add to cart.
 - [...] Search/Filter options.
 - [...] Suggestions (suggest other products).
 - [...] Mailing.
