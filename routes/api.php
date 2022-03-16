@@ -15,59 +15,81 @@ use App\Http\Controllers\PublicController;
 |                                                                          |
 | -------------------  Current API version is:  api/v1  -------------------|
 */
-// Login & Register
+
+//------------------//
+// Login & Register //
+//------------------//----------------------------------------------------------------//
 Route::post("login",[\App\Http\Controllers\AuthController::class,'login']);
 Route::post("register",[\App\Http\Controllers\AuthController::class,'register']);
+// -----------------------------------------------------------------------------------//
 
-// Public Routes
+//---------------//
+// Public Routes //
+//---------------//--------------------------------------------------------------------------------------//
 Route::get('/products', [\App\Http\Controllers\PublicController::class , 'allProducts']);
+Route::get('/products/{slug}', [\App\Http\Controllers\PublicController::class , 'showProduct']);
+//-------------------------------------------------------------------------------------------------------//
 Route::get('/categories', [\App\Http\Controllers\PublicController::class , 'allCategories']);
 Route::get('/categories/{category}', [\App\Http\Controllers\PublicController::class , 'productsbyCategory']);
-Route::get('/products/{slug}', [\App\Http\Controllers\PublicController::class , 'showProduct']);
-
+//-------------------------------------------------------------------------------------------------------//
+Route::get('/marks', [\App\Http\Controllers\PublicController::class , 'allMarks']);
+Route::get('/marks/{mark}', [\App\Http\Controllers\PublicController::class , 'productsByMarks']);
+//-------------------------------------------------------------------------------------------------------//
 
 // Log in protected routes
+//--------------------------------------------------------//
 Route::group(['middleware' => 'auth:sanctum'], function(){
 
     // Admin sProtected Routes with admin custom middleware
+    //-----------------------------------------------------------------------//
     Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function(){
-
-        // Admin Data routes:
+        //--------------------//
+        // Admin Data routes: //
+        //--------------------//--------------------------------------------------------//
         Route::get('/', [\App\Http\Controllers\AdminController::class, 'info']);
         Route::post('/', [\App\Http\Controllers\AdminController::class, 'update']);
         Route::get('/ip', [\App\Http\Controllers\AdminController::class, 'getIp']);
-
-        // Product Routes:
+        //------------------------------------------------------------------------------//
+        //-----------------//
+        // Product Routes: //
+        //-----------------//-----------------------------------------------------------------------------//
         Route::post('/products', [\App\Http\Controllers\AdminController::class, 'storeProduct']);
         Route::get('/products/{product}/delete', [\App\Http\Controllers\AdminController::class, 'deleteProduct']);
         Route::post('/products/photos', [\App\Http\Controllers\AdminController::class, 'addPhotoToProduct']);
         Route::get('/products/photos/{photo}/delete', [\App\Http\Controllers\AdminController::class, 'deletePhotoFromProduct']);
-
-        // Category routes:
+        //------------------------------------------------------------------------------------------------//
+        //------------------//
+        // Category routes: //
+        //------------------//----------------------------------------------------------------------------//
         Route::post('/categories', [\App\Http\Controllers\AdminController::class, 'storeCategory']);
         Route::get('/categories/{category}/delete', [\App\Http\Controllers\AdminController::class, 'deleteCategory']);
-
-
-        // Mark routes:
+        //------------------------------------------------------------------------------------------------//
+        //--------------//
+        // Mark routes: //
+        //--------------//---------------------------------------------------------------------------------//
         Route::post('/marks', [\App\Http\Controllers\AdminController::class, 'storeMark']);
         Route::get('/marks/{mark}/delete', [\App\Http\Controllers\AdminController::class, 'deleteMark']);
-
+        //-------------------------------------------------------------------------------------------------//
     });
 
     // Users protected Routes
+    //--------------------------------------------------------------------------------//
     Route::group(['prefix' => 'user', 'middleware' => 'auth:sanctum'], function(){
-
-        // User Data Routes:
+        //-------------------//
+        // User Data Routes: //
+        //-------------------//------------------------------------------------------------//
         Route::get('/', [\App\Http\Controllers\UserController::class, 'info']);
         Route::post('/', [\App\Http\Controllers\UserController::class, 'updateData']);
-
-        // User cart routes
+        //---------------------------------------------------------------------------------//
+        //------------------//
+        // User cart routes //
+        //------------------//------------------------------------------------------------------------------//
         Route::post('/cart', [\App\Http\Controllers\UserController::class, 'addToCart']);
         Route::get('/cart', [\App\Http\Controllers\UserController::class, 'getCart']);
         Route::get('/cart/wipe', [\App\Http\Controllers\UserController::class, 'wipeCart']);
         Route::post('/cart/update', [\App\Http\Controllers\UserController::class, 'updateCart']);
         Route::get('/cart/{product}/delete', [\App\Http\Controllers\UserController::class, 'deleteProductFromCart']);
-
+        //--------------------------------------------------------------------------------------------------//
     });
 
 });

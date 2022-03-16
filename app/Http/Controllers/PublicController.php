@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Mark;
 use App\Models\Product;
 
 class PublicController extends Controller
@@ -68,7 +69,7 @@ class PublicController extends Controller
     {
 
         // getting the product of the requested category
-        $category->with('products');
+        $category->products = $category->products()->get();
 
         // constructing a response
         $response = [
@@ -79,5 +80,21 @@ class PublicController extends Controller
         return response(
             $response, 200
         );
+    }
+    public function allMarks()
+    {
+
+        // getting all the marks
+        $marks = Mark::all();
+        // returning the response
+        return response(['status' => 'success', 'data' => $marks ], 200);
+
+    }
+    public function productsByMarks(Mark $mark)
+    {
+        // getting the product of the mark
+        $mark->products = $mark->products()->get();
+        // returning a response
+        return response(['status' => 'success', 'data' => $mark ], 200);
     }
 }
