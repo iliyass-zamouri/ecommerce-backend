@@ -42,7 +42,7 @@ class PublicController extends Controller
         $response = [
             'status' => 'success',
             'data' => $product
-            ];
+        ];
 
         // returning the response
         return response($response, 200);
@@ -58,6 +58,22 @@ class PublicController extends Controller
         $response = [
             'status' => 'success',
             'data' => $categories
+        ];
+        // returning the response
+        return response(
+            $response, 200
+        );
+    }
+    public function productsbyCategory(Category $category)
+    {
+
+        // getting the product of the requested category
+        $category->with('products');
+
+        // constructing a response
+        $response = [
+            'status' => 'success',
+            'data' => $category
         ];
         // returning the response
         return response(

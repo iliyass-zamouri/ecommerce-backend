@@ -102,7 +102,7 @@ class AdminController extends Controller
             ]);
         }
 
-        // constructing a response
+        // constructing a response with the product in it
         $response = [
             'status' => 'success',
             'data' => $product

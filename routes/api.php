@@ -22,6 +22,7 @@ Route::post("register",[\App\Http\Controllers\AuthController::class,'register'])
 // Public Routes
 Route::get('/products', [\App\Http\Controllers\PublicController::class , 'allProducts']);
 Route::get('/categories', [\App\Http\Controllers\PublicController::class , 'allCategories']);
+Route::get('/categories/{category}', [\App\Http\Controllers\PublicController::class , 'productsbyCategory']);
 Route::get('/products/{slug}', [\App\Http\Controllers\PublicController::class , 'showProduct']);
 
 
@@ -38,18 +39,18 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
 
         // Product Routes:
         Route::post('/products', [\App\Http\Controllers\AdminController::class, 'storeProduct']);
-        Route::get('/products/delete/{product}', [\App\Http\Controllers\AdminController::class, 'deleteProduct']);
+        Route::get('/products/{product}/delete', [\App\Http\Controllers\AdminController::class, 'deleteProduct']);
         Route::post('/products/photos', [\App\Http\Controllers\AdminController::class, 'addPhotoToProduct']);
-        Route::get('/products/photos/delete/{photo}', [\App\Http\Controllers\AdminController::class, 'deletePhotoFromProduct']);
+        Route::get('/products/photos/{photo}/delete', [\App\Http\Controllers\AdminController::class, 'deletePhotoFromProduct']);
 
         // Category routes:
         Route::post('/categories', [\App\Http\Controllers\AdminController::class, 'storeCategory']);
-        Route::get('/categories/delete/{category}', [\App\Http\Controllers\AdminController::class, 'deleteCategory']);
+        Route::get('/categories/{category}/delete', [\App\Http\Controllers\AdminController::class, 'deleteCategory']);
 
 
         // Mark routes:
         Route::post('/marks', [\App\Http\Controllers\AdminController::class, 'storeMark']);
-        Route::get('/marks/delete/{mark}', [\App\Http\Controllers\AdminController::class, 'deleteMark']);
+        Route::get('/marks/{mark}/delete', [\App\Http\Controllers\AdminController::class, 'deleteMark']);
 
     });
 
@@ -65,7 +66,7 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
         Route::get('/cart', [\App\Http\Controllers\UserController::class, 'getCart']);
         Route::get('/cart/wipe', [\App\Http\Controllers\UserController::class, 'wipeCart']);
         Route::post('/cart/update', [\App\Http\Controllers\UserController::class, 'updateCart']);
-        Route::get('/cart/delete/{product}', [\App\Http\Controllers\UserController::class, 'deleteProductFromCart']);
+        Route::get('/cart/{product}/delete', [\App\Http\Controllers\UserController::class, 'deleteProductFromCart']);
 
     });
 

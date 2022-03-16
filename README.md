@@ -104,16 +104,33 @@ This project is an Ecommerce Laravel Rest API that can be linked to any FrontEnd
 Routes:
 ```javascript
 
-// Public Routes :
+//-----------------//
+// Public Routes:: //
+//-----------------//
+
+// getting all the products,
+// this will include pagination later.
 GET: /products
+// getting all the categories
 GET: /categories
+// to get all the product within a category
+GET: /categories/{id}
+// to get the product details, this will include 
+// suggestions later. ( based on a traking system,
+// that i will add when forking this repo )
 GET: /products/{slug}
 
-// Login Routes:
+//----------------//
+// Login Routes:: //
+//----------------//
+
 POST: /login
 POST: /register
 
-// User Routes: prefixed with (/user) 
+//-------------------------------------//
+// User Routes:: prefixed with (/user) //
+//-------------------------------------//
+
 // for getting user personal data:
 GET: / 
 // for updating data:
@@ -125,11 +142,14 @@ POST: /cart/update
 // to get cart details
 GET: /cart
 // to delete product from cart:
-GET: /cart/delete/{id}
+GET: /cart/{id}/delete
 // to wipe all cart (empty up)
 GET: /cart/wipe
 
-// Admin Routes: prefixed with (/admin)
+//---------------------------------------//
+// Admin Routes:: prefixed with (/admin) //
+//---------------------------------------//
+
 // personal data
 GET: / 
 // updating the personal data
@@ -137,19 +157,19 @@ POST: /
 // adding a product
 POST: /products
 // deleting a product
-GET: /products/delete/{id}
+GET: /products/{id}/delete
 // adding a photo to a product
 POST: /products/photos
 // deleting a photo from a product
-GET: /products/photos/delete/{id}
+GET: /products/photos/{id}/delete
 // adding a category
 POST: /categories
 // deleting a category
-GET: /categories/delete/{id}
+GET: /categories/{id}/delete
 // adding a mark
 POST: /marks
 // deleting a mark 
-GET: /marks/delete/5
+GET: /marks/{id}/delete
 ```
 ---------------------------------------------
 ## Contributing
