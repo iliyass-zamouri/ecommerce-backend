@@ -114,11 +114,14 @@ GET: /products
 // getting all the categories
 GET: /categories
 // to get all the product within a category
-GET: /categories/{id}
+GET: /categories/{slug}
 // to get the product details, this will include 
 // suggestions later. ( based on a traking system,
 // that i will add when forking this repo )
 GET: /products/{slug}
+// get all the marks
+GET: /marks
+GET: /marks/{slug}
 
 //----------------//
 // Login Routes:: //

@@ -65,11 +65,12 @@ class PublicController extends Controller
             $response, 200
         );
     }
-    public function productsbyCategory(Category $category)
+    public function productsbyCategory($slug)
     {
 
+        $category = Category::where('slug', $slug)->with('products')->get()->first();
         // getting the product of the requested category
-        $category->products = $category->products()->get();
+        // $category->products = $category->products()->get();
 
         // constructing a response
         $response = [
@@ -90,10 +91,12 @@ class PublicController extends Controller
         return response(['status' => 'success', 'data' => $marks ], 200);
 
     }
-    public function productsByMarks(Mark $mark)
+    public function productsByMarks($slug)
     {
+        // getting the mark, with products
+        $mark = Mark::where('slug', $slug)->with('products')->get()->first();
         // getting the product of the mark
-        $mark->products = $mark->products()->get();
+//        $mark->products = $mark->products()->get();
         // returning a response
         return response(['status' => 'success', 'data' => $mark ], 200);
     }

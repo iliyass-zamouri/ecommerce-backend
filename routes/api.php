@@ -30,10 +30,10 @@ Route::get('/products', [\App\Http\Controllers\PublicController::class , 'allPro
 Route::get('/products/{slug}', [\App\Http\Controllers\PublicController::class , 'showProduct']);
 //-------------------------------------------------------------------------------------------------------//
 Route::get('/categories', [\App\Http\Controllers\PublicController::class , 'allCategories']);
-Route::get('/categories/{category}', [\App\Http\Controllers\PublicController::class , 'productsbyCategory']);
+Route::get('/categories/{slug}', [\App\Http\Controllers\PublicController::class , 'productsbyCategory']);
 //-------------------------------------------------------------------------------------------------------//
 Route::get('/marks', [\App\Http\Controllers\PublicController::class , 'allMarks']);
-Route::get('/marks/{mark}', [\App\Http\Controllers\PublicController::class , 'productsByMarks']);
+Route::get('/marks/{slug}', [\App\Http\Controllers\PublicController::class , 'productsByMarks']);
 //-------------------------------------------------------------------------------------------------------//
 
 // Log in protected routes
