@@ -173,6 +173,15 @@ GET: /categories/{id}/delete
 POST: /marks
 // deleting a mark 
 GET: /marks/{id}/delete
+// adding a product to auth. user's wishlist
+GET: /wishlist/{slug}
+// getting auth. user's wishlist
+GET: /wishlist
+// deleting all auth. user's products from the wishlist
+GET: /wishlist/wipe
+// deleting a product from auth. user's wishlist
+GET: /wishlist/{slug}/delete
+
 ```
 ---------------------------------------------
 ## Contributing

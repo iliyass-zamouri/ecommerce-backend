@@ -96,7 +96,7 @@ class PublicController extends Controller
         // getting the mark, with products
         $mark = Mark::where('slug', $slug)->with('products')->get()->first();
         // getting the product of the mark
-//        $mark->products = $mark->products()->get();
+        // $mark->products = $mark->products()->get();
         // returning a response
         return response(['status' => 'success', 'data' => $mark ], 200);
     }

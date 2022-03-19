@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\Specification;
 use App\Models\User;
+use App\Models\Wishlist;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -250,5 +251,78 @@ class UserController extends Controller
             'data' => $result,
             ], 200);
 
+    }
+    public function addProductToWishlist($slug)
+    {
+        // find the product with the slug
+        $product = Product::where('slug' , $slug)->get()->first();
+        // product is null??
+        if($product == null){
+            // returning 404 response
+            return response([
+                'status' => 'error',
+                'msg' => "Product: $slug not found"],
+                404);
+        }
+        // checking if the product already exists in the wishlist
+        $alreadyExists = Wishlist::userWishlist()->where('product_id', $product->id)->get();
+        if($alreadyExists->count() != 0){
+            return response([
+                'status' => 'error',
+                'msg' => "Product: $slug has already been added to the wishlist"
+            ], 200);
+        }
+        // add new record to the database
+        $wishlist = Wishlist::create([
+            'product_id', $product->id,
+            'user_id', Auth::user()->id
+            ]);
+        // returning a response
+        return response([
+            'status' => 'success',
+            'data' => $wishlist
+        ], 200);
+    }
+
+    public function wishlist()
+    {
+        // scoping authenticated user's wishlist with the product
+        $wishlists = Wishlist::userWishlist()->with('product')->get();
+
+        // returning a response
+        return response([
+            'status' => 'success',
+            'data' => $wishlists
+        ], 200);
+    }
+    public function wipeWishlist()
+    {
+        // scoping user's whislist entries then deleting them
+        $isDeleted = Wishlist::userWishlist()->delete();
+        // returning a response
+        return response([
+            'status' => 'success',
+            'data' => $isDeleted
+        ],201);
+    }
+    public function deleteProductFromWishlist($slug)
+    {
+        // find the product with the slug
+        $product = Product::where('slug' , $slug)->get()->first();
+        // product is null??
+        if($product == null){
+            // returning 404 response
+            return response([
+                'status' => 'error',
+                'msg' => "Product: $slug not found"],
+                404);
+        }
+        // scroping auth. user's wishlist, finding the product then deleting it
+        $deleted = Wishlist::userWishlist()->where('product_id', $product->id)->delete();
+        // returing a response
+        return response([
+            'status' => 'success',
+            'data' => $deleted,
+            ],201);
     }
 }
