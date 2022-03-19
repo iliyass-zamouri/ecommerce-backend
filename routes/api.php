@@ -96,7 +96,7 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
         Route::get('/wishlist/{slug}', [\App\Http\Controllers\UserController::class, 'addProductToWishlist']);
         Route::get('/wishlist', [\App\Http\Controllers\UserController::class, 'wishlist']);
         Route::get('/wishlist/wipe', [\App\Http\Controllers\UserController::class, 'wipeWishlist']);
-        Route::get('/wishlist/{slug}/delete', [\App\Http\Controllers\UserController::class, 'deleteProductFromCart']);
+        Route::get('/wishlist/{slug}/delete', [\App\Http\Controllers\UserController::class, 'deleteProductFromWishlist']);
         //--------------------------------------------------------------------------------------------------//
     });
 

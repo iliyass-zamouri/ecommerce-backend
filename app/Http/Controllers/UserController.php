@@ -243,7 +243,7 @@ class UserController extends Controller
     {
 
         // deleting the product from the cart linked to the user
-        $result = \App\Models\Cart::userCart()->where('product_id' ,$product->id)->get()->first()->delete();
+        $result = \App\Models\Cart::userCart()->where('product_id' ,$product->id)->delete();
 
         // returning a response
         return response([
@@ -274,8 +274,8 @@ class UserController extends Controller
         }
         // add new record to the database
         $wishlist = Wishlist::create([
-            'product_id', $product->id,
-            'user_id', Auth::user()->id
+            'product_id' => $product->id,
+            'user_id' => Auth::user()->id
             ]);
         // returning a response
         return response([

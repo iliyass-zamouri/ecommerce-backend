@@ -22,9 +22,11 @@ This project is an Ecommerce Laravel Rest API that can be linked to any FrontEnd
 - id
 - first_name
 - last_name
+- phone
 - email
 - password
-  
+- is_admin
+
 ### products 
 ✔ migration
 ✔ model
@@ -62,6 +64,7 @@ This project is an Ecommerce Laravel Rest API that can be linked to any FrontEnd
 ✔ model
 - id 
 - label
+- slug
 - logo
 ### specifications 
 ✔ migration
@@ -103,7 +106,6 @@ This project is an Ecommerce Laravel Rest API that can be linked to any FrontEnd
 ---------------------------------------------
 Routes:
 ```javascript
-
 //-----------------//
 // Public Routes:: //
 //-----------------//
@@ -181,7 +183,6 @@ GET: /wishlist
 GET: /wishlist/wipe
 // deleting a product from auth. user's wishlist
 GET: /wishlist/{slug}/delete
-
 ```
 ---------------------------------------------
 ## Contributing
