@@ -10,7 +10,7 @@ This project is an Ecommerce Laravel Rest API that can be linked to any FrontEnd
 - [✔] Add to cart.
 - [...] Search/Filter options.
 - [...] Suggestions (suggest other products).
-- [...] Mailing.
+- [✔] Mailing.
 - [...] Coupon codes.
 
 ## Modeling
@@ -110,6 +110,8 @@ Routes:
 // Public Routes:: //
 //-----------------//
 
+// subscribe to the newsletter
+POST: /subscribe
 // getting all the products,
 // this will include pagination later.
 GET: /products
@@ -140,6 +142,8 @@ POST: /register
 GET: / 
 // for updating data:
 POST: /  
+// subscribe to the newsletter
+GET: /subscribe
 // to add product to cart
 POST: /cart
 // to update cart
@@ -184,6 +188,30 @@ GET: /wishlist/wipe
 // deleting a product from auth. user's wishlist
 GET: /wishlist/{slug}/delete
 ```
+##Mailing
+
+#### make mail class 
+```
+php artisan make:mail Subscribe --markdown=emails.subscribe
+```
+
+####configuring the smtp to use gmail based email:
+
+```
+MAIL_MAILER=smtp
+MAIL_HOST=smtp.googlemail.com
+MAIL_PORT=465
+MAIL_USERNAME=[email]@gmail.com
+MAIL_PASSWORD=[password]
+MAIL_ENCRYPTION=ssl
+MAIL_FROM_ADDRESS=[email]@[host].com
+MAIL_FROM_NAME="${APP_NAME}"
+```
+
+- See how to configure email class in [Subscribe] class.
+- Check the markdown in views/email/subscribe.blade.php.
+- Check [PublicController] function [subscribe]. 
+
 ---------------------------------------------
 ## Contributing
 
