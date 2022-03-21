@@ -1,4 +1,4 @@
-# Ecommerce - API
+# Ecommerce - Backend (API)
 
 ## About This Project
 
