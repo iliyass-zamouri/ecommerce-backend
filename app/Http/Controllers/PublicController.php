@@ -2,9 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\Subscribe;
 use App\Models\Category;
 use App\Models\Mark;
 use App\Models\Product;
+use App\Models\Subscription;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Mail;
 
 class PublicController extends Controller
 {
@@ -99,5 +104,43 @@ class PublicController extends Controller
         // $mark->products = $mark->products()->get();
         // returning a response
         return response(['status' => 'success', 'data' => $mark ], 200);
+    }
+    public function subscribe(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email|unique:subscriptions'
+        ]);
+
+
+        if ($validator->fails()) {
+            return response(['status' => 'error', 'msg' => $validator->errors()], 422);
+        }
+
+        $subscribed = Subscription::where('email', $request->email)->get();
+
+        if($subscribed->count() != 0){
+            return response([
+                'status' => 'error',
+                'msg' => 'Email already has been subscribed'
+            ], 200);
+        }
+
+        $subscriber = Subscription::create([
+                'email' => $request->email,
+                'token' => uniqid()
+            ]
+        );
+
+        $user = new \stdClass();
+        $user->email = $request->email;
+        $user->first_name = $request->email;
+
+        if ($subscriber) {
+            Mail::to($user->email)->send(new Subscribe($user));
+            return response([
+                'success' => true,
+                'message' => "Thank you for subscribing to our email, please check your inbox"
+            ],200);
+        }
     }
 }

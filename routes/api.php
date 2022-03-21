@@ -35,6 +35,8 @@ Route::get('/categories/{slug}', [\App\Http\Controllers\PublicController::class 
 Route::get('/marks', [\App\Http\Controllers\PublicController::class , 'allMarks']);
 Route::get('/marks/{slug}', [\App\Http\Controllers\PublicController::class , 'productsByMarks']);
 //-------------------------------------------------------------------------------------------------------//
+Route::post('/subscribe', [\App\Http\Controllers\PublicController::class , 'subscribe']);
+//-------------------------------------------------------------------------------------------------------//
 
 // Log in protected routes
 //--------------------------------------------------------//
@@ -80,6 +82,8 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
         //-------------------//------------------------------------------------------------//
         Route::get('/', [\App\Http\Controllers\UserController::class, 'info']);
         Route::post('/', [\App\Http\Controllers\UserController::class, 'updateData']);
+        Route::get('/subscribe', [\App\Http\Controllers\UserController::class , 'subscribe']);
+
         //---------------------------------------------------------------------------------//
         //------------------//
         // User cart routes //

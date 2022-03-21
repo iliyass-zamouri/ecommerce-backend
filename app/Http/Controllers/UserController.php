@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\Subscribe;
 use App\Models\Product;
 use App\Models\Specification;
+use App\Models\Subscription;
 use App\Models\User;
 use App\Models\Wishlist;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
 {
@@ -249,7 +252,7 @@ class UserController extends Controller
         return response([
             'status' => 'success',
             'data' => $result,
-            ], 200);
+        ], 200);
 
     }
     public function addProductToWishlist($slug)
@@ -276,7 +279,7 @@ class UserController extends Controller
         $wishlist = Wishlist::create([
             'product_id' => $product->id,
             'user_id' => Auth::user()->id
-            ]);
+        ]);
         // returning a response
         return response([
             'status' => 'success',
@@ -323,6 +326,31 @@ class UserController extends Controller
         return response([
             'status' => 'success',
             'data' => $deleted,
-            ],201);
+        ],201);
+    }
+    public function subscribe()
+    {
+        $subscribed = Subscription::where('email', Auth::user()->email)->get();
+
+        if($subscribed->count() != 0){
+            return response([
+                'status' => 'error',
+                'msg' => 'Email already has been subscribed'
+            ], 200);
+        }
+
+        $subscriber = Subscription::create([
+                'email' => Auth::user()->email,
+                'token' => uniqid()
+            ]
+        );
+
+        if ($subscriber) {
+            Mail::to(Auth::user()->email)->send(new Subscribe(Auth::user()));
+            return new JsonResponse([
+                    'success' => true,
+                    'message' => "Thank you for subscribing to our email, please check your inbox"
+                ], 200);
+        }
     }
 }
