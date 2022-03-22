@@ -118,14 +118,14 @@ GET: /products
 // getting all the categories
 GET: /categories
 // to get all the product within a category
-GET: /categories/{slug}
+GET: /categories/[slug]
 // to get the product details, this will include 
 // suggestions later. ( based on a traking system,
 // that i will add when forking this repo )
-GET: /products/{slug}
+GET: /products/[slug]
 // get all the marks
 GET: /marks
-GET: /marks/{slug}
+GET: /marks/[slug]
 
 //----------------//
 // Login Routes:: //
@@ -151,7 +151,7 @@ POST: /cart/update
 // to get cart details
 GET: /cart
 // to delete product from cart:
-GET: /cart/{id}/delete
+GET: /cart/[id]/delete
 // to wipe all cart (empty up)
 GET: /cart/wipe
 
@@ -166,27 +166,27 @@ POST: /
 // adding a product
 POST: /products
 // deleting a product
-GET: /products/{id}/delete
+GET: /products/[id]/delete
 // adding a photo to a product
 POST: /products/photos
 // deleting a photo from a product
-GET: /products/photos/{id}/delete
+GET: /products/photos/[id]/delete
 // adding a category
 POST: /categories
 // deleting a category
-GET: /categories/{id}/delete
+GET: /categories/[id]/delete
 // adding a mark
 POST: /marks
 // deleting a mark 
-GET: /marks/{id}/delete
+GET: /marks/[id]/delete
 // adding a product to auth. user's wishlist
-GET: /wishlist/{slug}
+GET: /wishlist/[slug]
 // getting auth. user's wishlist
 GET: /wishlist
 // deleting all auth. user's products from the wishlist
 GET: /wishlist/wipe
 // deleting a product from auth. user's wishlist
-GET: /wishlist/{slug}/delete
+GET: /wishlist/[slug]/delete
 ```
 ##Mailing
 
@@ -211,7 +211,7 @@ MAIL_FROM_NAME="${APP_NAME}"
 - See how to configure email class in [Subscribe] class.
 - Check the markdown in views/email/subscribe.blade.php.
 - Check [PublicController] function [subscribe]. 
-
+- activate the unsecured apps in the google account settings!!
 ---------------------------------------------
 ## Contributing
 

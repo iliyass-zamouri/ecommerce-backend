@@ -11,6 +11,8 @@ class Subscription extends Model
 
     protected $fillable = [
         'email',
+        'first_name',
+        'last_name',
         'token',
     ];
 }

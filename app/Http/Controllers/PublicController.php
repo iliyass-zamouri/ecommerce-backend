@@ -108,7 +108,9 @@ class PublicController extends Controller
     public function subscribe(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'email' => 'required|email|unique:subscriptions'
+            'email' => 'required|email|unique:subscriptions',
+            'first_name' => 'required|string',
+            'last_name' => 'required|string',
         ]);
 
 
@@ -127,13 +129,16 @@ class PublicController extends Controller
 
         $subscriber = Subscription::create([
                 'email' => $request->email,
+                'first_name' => $request->first_name,
+                'last_name' => $request->last_name,
                 'token' => uniqid()
             ]
         );
 
         $user = new \stdClass();
         $user->email = $request->email;
-        $user->first_name = $request->email;
+        $user->first_name = $request->first_name;
+        $user->last_name = $request->last_name;
 
         if ($subscriber) {
             Mail::to($user->email)->send(new Subscribe($user));

@@ -341,6 +341,8 @@ class UserController extends Controller
 
         $subscriber = Subscription::create([
                 'email' => Auth::user()->email,
+                'first_name' => Auth::user()->first_name,
+                'first_name' => Auth::user()->last_name,
                 'token' => uniqid()
             ]
         );
