@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
@@ -67,7 +68,7 @@ class AuthController extends Controller
         ]);
 
         // generating a token for the new user
-        $token = $user->createToken('my-app-token')->plainTextToken;
+        $token = $user->createToken('auth-token')->plainTextToken;
 
         // constructing a response
         $response = [
@@ -80,13 +81,28 @@ class AuthController extends Controller
         return response($response , 201);
     }
 
+    public function logout(Request $request)
+    {
+
+        $request->user()->tokens()->delete();
+
+        return response()->json(
+            [
+                'status' => 'success',
+                'msg' => 'Logged out'
+            ]
+        );
+
+    }
+
 
     public function sendVerificationEmail(Request $request)
     {
         if ($request->user()->hasVerifiedEmail()) {
-            return [
-                'message' => 'Already Verified'
-            ];
+            return response([
+                'status' => 'success',
+                'msg' => 'Already Verified'
+            ]);
         }
 
         $request->user()->sendEmailVerificationNotification();
@@ -99,7 +115,7 @@ class AuthController extends Controller
         if ($request->user()->hasVerifiedEmail()) {
             return response([
                 'status' => 'success',
-                'message' => 'Email already verified'
+                'msg' => 'Email already verified'
             ]);
         }
 
@@ -107,8 +123,9 @@ class AuthController extends Controller
             event(new Verified($request->user()));
         }
 
-        return [
-            'message'=>'Email has been verified'
-        ];
+        return response([
+            'status' => 'success',
+            'msg'=>'Email has been verified'
+        ]);
     }
 }
