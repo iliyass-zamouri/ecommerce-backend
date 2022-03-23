@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Auth\Events\Verified;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Models\User;
 
 class AuthController extends Controller
@@ -76,5 +78,37 @@ class AuthController extends Controller
 
         // returning the response with status code of 201
         return response($response , 201);
+    }
+
+
+    public function sendVerificationEmail(Request $request)
+    {
+        if ($request->user()->hasVerifiedEmail()) {
+            return [
+                'message' => 'Already Verified'
+            ];
+        }
+
+        $request->user()->sendEmailVerificationNotification();
+
+        return response(['status' => 'verification-link-sent']);
+    }
+
+    public function verify(EmailVerificationRequest $request)
+    {
+        if ($request->user()->hasVerifiedEmail()) {
+            return response([
+                'status' => 'success',
+                'message' => 'Email already verified'
+            ]);
+        }
+
+        if ($request->user()->markEmailAsVerified()) {
+            event(new Verified($request->user()));
+        }
+
+        return [
+            'message'=>'Email has been verified'
+        ];
     }
 }
