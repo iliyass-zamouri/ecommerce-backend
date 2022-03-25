@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Validation\ValidationException;
 
 class PasswordController extends Controller
 {

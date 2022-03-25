@@ -26,8 +26,8 @@ Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:sanct
 Route::post('email/verification-notification', [\App\Http\Controllers\AuthController::class, 'sendVerificationEmail'])->middleware('auth:sanctum');
 Route::get('verify-email/{id}/{hash}', [\App\Http\Controllers\AuthController::class, 'verify'])->middleware('auth:sanctum');
 
-Route::post('forgot-password', [\App\Http\Controllers\PasswordController::class, 'forgotPassword']);
-Route::post('reset-password', [\App\Http\Controllers\PasswordController::class, 'reset']);
+//Route::post('forgot-password', [\App\Http\Controllers\PasswordController::class, 'forgotPassword']);
+//Route::post('reset-password', [\App\Http\Controllers\PasswordController::class, 'reset']);
 // -----------------------------------------------------------------------------------//
 //---------------//
 // Public Routes //
