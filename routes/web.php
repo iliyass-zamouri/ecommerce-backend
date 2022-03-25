@@ -13,6 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/password/reset/{token}', function ($token) {
+    return view('password-reset', ['token' => $token]);
 });

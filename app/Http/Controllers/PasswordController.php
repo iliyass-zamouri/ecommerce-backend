@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Str;
 
 class PasswordController extends Controller
 {
@@ -32,7 +36,7 @@ class PasswordController extends Controller
         $request->validate([
             'token' => 'required',
             'email' => 'required|email',
-            'password' => ['required', 'confirmed', RulesPassword::defaults()],
+            'password' => ['required', 'confirmed'],
         ]);
 
         $status = Password::reset(
@@ -50,14 +54,19 @@ class PasswordController extends Controller
         );
 
         if ($status == Password::PASSWORD_RESET) {
-            return response([
-                'message'=> 'Password reset successfully'
-            ]);
+            $response = [
+                'status' => 'success',
+                'msg'=> 'Password reset successfully'
+            ];
+            return $request->acceptsHtml() ? view('message', $response) : response($response, 200);
+        } else {
+            $response = [
+                'status' => 'error',
+                'msg'=> __($status)
+            ];
+            return $request->acceptsHtml() ? view('message', $response) : response($response, 500);
         }
 
-        return response([
-            'message'=> __($status)
-        ], 500);
 
     }
 

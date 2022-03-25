@@ -27,7 +27,7 @@ Route::post('email/verification-notification', [\App\Http\Controllers\AuthContro
 Route::get('verify-email/{id}/{hash}', [\App\Http\Controllers\AuthController::class, 'verify'])->middleware('auth:sanctum');
 
 Route::post('forgot-password', [\App\Http\Controllers\PasswordController::class, 'forgotPassword']);
-Route::post('reset-password', [\App\Http\Controllers\PasswordController::class, 'reset']);
+Route::post('reset-password', [\App\Http\Controllers\PasswordController::class, 'reset'])->name('password.reset');
 // -----------------------------------------------------------------------------------//
 //---------------//
 // Public Routes //
