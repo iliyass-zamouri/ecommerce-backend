@@ -7,9 +7,16 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 
 class PasswordController extends Controller
 {
+
+    public function resetForm($token)
+    {
+        return view('password-reset',  compact('token'));
+    }
+
     public function forgotPassword(Request $request)
     {
         $request->validate([
@@ -21,13 +28,15 @@ class PasswordController extends Controller
         );
 
         if ($status == Password::RESET_LINK_SENT) {
-            return [
-                'status' => __($status)
-            ];
+            return response([
+                'status' => 'success',
+                'message' => __($status)
+            ]);
         }
 
         throw ValidationException::withMessages([
-            'email' => [trans($status)],
+            'status' => 'error',
+            'message' => [trans($status)],
         ]);
     }
 
@@ -56,13 +65,13 @@ class PasswordController extends Controller
         if ($status == Password::PASSWORD_RESET) {
             $response = [
                 'status' => 'success',
-                'msg'=> 'Password reset successfully'
+                'message'=> 'Password reset successfully'
             ];
             return $request->acceptsHtml() ? view('message', $response) : response($response, 200);
         } else {
             $response = [
                 'status' => 'error',
-                'msg'=> __($status)
+                'message'=> __($status)
             ];
             return $request->acceptsHtml() ? view('message', $response) : response($response, 500);
         }

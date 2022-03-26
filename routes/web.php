@@ -13,6 +13,5 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/password/reset/{token}', function ($token) {
-    return view('password-reset', ['token' => $token]);
-});
+Route::get('/password/reset/{token}', [\App\Http\Controllers\PasswordController::class, 'resetForm' ]);
+

@@ -8,7 +8,7 @@
                     <div class="card">
                         <div class="card-body">
 
-                          {{ $msg }}
+                          {{ $message }}
 
                         </div>
                     </div>

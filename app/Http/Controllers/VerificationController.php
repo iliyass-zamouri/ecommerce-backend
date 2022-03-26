@@ -21,7 +21,7 @@ class VerificationController extends Controller
         if (Auth::user()->hasVerifiedEmail()) {
             return response([
                 'status' => 'error',
-                'msg' => 'Email already been verified'
+                'message' => 'Email already been verified'
             ]);
         }
 
@@ -29,7 +29,7 @@ class VerificationController extends Controller
 
         return response([
             'status' => 'success',
-            'msg' => 'verification-link-sent'
+            'message' => 'verification-link-sent'
         ]);
     }
     public function verify(Request $request)
@@ -49,7 +49,7 @@ class VerificationController extends Controller
 
         return view('message',[
             'status' => 'success',
-            'msg'=>'Email has been verified'
+            'message'=>'Email has been verified'
         ]);
     }
 
