@@ -22,10 +22,10 @@ use App\Http\Controllers\PublicController;
 Route::post("login",[\App\Http\Controllers\AuthController::class,'login']);
 Route::post("register",[\App\Http\Controllers\AuthController::class,'register']);
 Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
-
-Route::post('email/verification-notification', [\App\Http\Controllers\AuthController::class, 'sendVerificationEmail'])->middleware('auth:sanctum');
-Route::get('verify-email/{id}/{hash}', [\App\Http\Controllers\AuthController::class, 'verify'])->middleware('auth:sanctum');
-
+// email verification: send, verify
+Route::get('email/verify', [\App\Http\Controllers\VerificationController::class, 'send'])->middleware('auth:sanctum')->middleware('auth:sanctum');
+Route::get('email/verify/{id}/{hash}', [\App\Http\Controllers\VerificationController::class, 'verify'])->name('verification.verify');
+// password resetting: forgot, reset
 Route::post('forgot-password', [\App\Http\Controllers\PasswordController::class, 'forgotPassword']);
 Route::post('reset-password', [\App\Http\Controllers\PasswordController::class, 'reset'])->name('password.reset');
 // -----------------------------------------------------------------------------------//

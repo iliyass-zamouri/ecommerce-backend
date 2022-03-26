@@ -12,16 +12,16 @@ class PasswordResetNotofication extends Notification
 {
     use Queueable;
 
-    public $token;
+    public $url;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($token)
+    public function __construct($url)
     {
-        $this->token = $token;
+        $this->url = $url;
     }
 
     /**
@@ -43,11 +43,10 @@ class PasswordResetNotofication extends Notification
      */
     public function toMail($notifiable)
     {
-        $url = env('APP_URL') . "/password/reset/" . $this->token;
         return (new MailMessage)
             ->subject("Reset your ". env('APP_NAME') ." password")
             ->line(Lang::get('You are receiving this email because we received a password reset request for your account.'))
-            ->action(Lang::get('Reset Password'), $url)
+            ->action(Lang::get('Reset Password'), $this->url)
             ->line(Lang::get('This password reset link will expire in :count minutes.', ['count' => config('auth.passwords.'.config('auth.defaults.passwords').'.expire')]))
             ->line(Lang::get('If you did not request a password reset, no further action is required.'));
     }

@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Auth\Events\Verified;
-use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Models\User;
 
 class AuthController extends Controller
@@ -67,6 +65,8 @@ class AuthController extends Controller
             'password' => bcrypt($fields['password'])
         ]);
 
+        event(new Registered($user));
+
         // generating a token for the new user
         $token = $user->createToken('auth-token')->plainTextToken;
 
@@ -95,37 +95,4 @@ class AuthController extends Controller
 
     }
 
-
-    public function sendVerificationEmail(Request $request)
-    {
-        if ($request->user()->hasVerifiedEmail()) {
-            return response([
-                'status' => 'success',
-                'msg' => 'Already Verified'
-            ]);
-        }
-
-        $request->user()->sendEmailVerificationNotification();
-
-        return response(['status' => 'verification-link-sent']);
-    }
-
-    public function verify(EmailVerificationRequest $request)
-    {
-        if ($request->user()->hasVerifiedEmail()) {
-            return response([
-                'status' => 'success',
-                'msg' => 'Email already verified'
-            ]);
-        }
-
-        if ($request->user()->markEmailAsVerified()) {
-            event(new Verified($request->user()));
-        }
-
-        return response([
-            'status' => 'success',
-            'msg'=>'Email has been verified'
-        ]);
-    }
 }
