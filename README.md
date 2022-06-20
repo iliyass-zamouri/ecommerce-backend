@@ -195,7 +195,7 @@ GET: /wishlist/[slug]/delete
 php artisan make:mail Subscribe --markdown=emails.subscribe
 ```
 
-####configuring the smtp to use gmail based email:
+####configuring the smtp to use Gmail:
 
 ```
 MAIL_MAILER=smtp
